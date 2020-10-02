@@ -59,7 +59,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$playerName = strtolower($player->getName());
 		$area = (AreaProvider::getInstance())->getArea($world, $posX, $posZ, $playerName);
 
-		if ($area instanceof AreaSection && ($player->isOp() || !$area->isAccessDeny() || $area->isResident($user)) && $this->whereIs[$playerName] !== ($key = $world . ' ' . $area->getId())) {
+		if ($area instanceof AreaSection && ($player->isOp() || !$area->isAccessDeny() || $area->isResident($playerName)) && $this->whereIs[$playerName] !== ($key = $world . ' ' . $area->getId())) {
 			$this->whereIs[$playerName] = $key;
 			$this->ready($player);
 		} else if ($this->playerExitsArea($player)) {
@@ -100,7 +100,11 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 			$soundName = $this->areaConfig->get($this->whereIs[$playerName], null);
 		}
 
-		$this->delayedTasks[strtolower($player->getName())] = $this->getScheduler()->scheduleDelayedTask(new IntervalPlaybackTask($this, $player, $soundName), $delay);
+		if ($delay < 0) {
+			$this->getScheduler()->scheduleTask(new IntervalPlaybackTask($this, $player, $soundName));
+		} else {
+			$this->delayedTasks[$playerName] = $this->getScheduler()->scheduleDelayedTask(new IntervalPlaybackTask($this, $player, $soundName), $delay);
+		}
 	}
 
 	function setAreaSound(Level $world, int $id, $soundName): void {
