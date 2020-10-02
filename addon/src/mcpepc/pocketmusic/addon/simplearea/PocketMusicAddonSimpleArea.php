@@ -35,7 +35,13 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$this->areaConfig->save();
 	}
 
-	function onJoin(PlayerJoinEvent $event) {}
+	/**
+	 * @priority HIGH
+	 */
+	function onJoin(PlayerJoinEvent $event) {
+		$this->playerExitsArea($event->getPlayer());
+		$this->ready($event->getPlayer());
+	}
 
 	// https://github.com/organization/SimpleArea/blob/master/src/ifteam/SimpleArea/EventListener.php
 	function onPlayerMove(PlayerMoveEvent $event) {
@@ -50,27 +56,40 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 			$key = $world . ' ' . $area->getId();
 			if (($player->isOp() || !$area->isAccessDeny() || $area->isResident($user)) && $this->whereIs[$playerName] === $key) {
 				$this->whereIs[$playerName] = $key;
-				$this->ready($player, -1, $this->areaConfig->get($key, null));
+				$this->ready($player);
 			}
-		} else {
-			$this->playerExitsArea($player);
+		} else if ($this->playerExitsArea($player)) {
+				$this->ready($player);
 		}
 	}
 
-	function onEntityLevelChange(EntityLevelChangeEvent $event) {}
+	/**
+	 * @priority HIGH
+	 */
+	function onEntityLevelChange(EntityLevelChangeEvent $event) {
+		$this->playerExitsArea($event->getPlayer());
+		$this->ready($event->getPlayer());
+	}
 
-	private function playerExitsArea(Player $player) {
-		$name = strtolower($player->getName());
+	private function playerExitsArea(Player $player): bool {
+		$player = strtolower($player->getName());
 
-		if ($this->whereIs[$name] !== null) {
-			$this->whereIs[$name] = null;
-			$this->ready($player);
+		if ($this->whereIs[$player] !== null) {
+			$this->whereIs[$player] = null;
+			return true;
 		}
+
+		return false;
 	}
 
 	function ready(Player $player, int $delay = -1, $soundName = null): void {
-		if (isset($this->delayedTasks[strtolower($player->getName())]) {
-			$this->delayedTasks[strtolower($player->getName())]->getHandler()->cancel();
+		$playerName = strtolower($player->getName());
+		if (isset($this->delayedTasks[$playerName]) {
+			$this->delayedTasks[$playerName]->getHandler()->cancel();
+		}
+
+		if ($soundName === null && $this->whereIs[$playerName] !== null) {
+			$soundName = $this->areaConfig->get($key, null);
 		}
 
 		$this->delayedTasks[strtolower($player->getName())] = $this->getScheduler()->scheduleDelayedTask(new IntervalPlaybackTask($this, $player, $soundName), $delay);
