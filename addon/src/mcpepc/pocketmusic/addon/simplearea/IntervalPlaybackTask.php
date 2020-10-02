@@ -39,8 +39,8 @@ class IntervalPlaybackTask extends PocketMusicTask {
 		}
 
 		if (strpos($soundName, 'pocketmusic.music.') === 0) {
-		$soundName = substr($soundName, 18);
-	}
+			$soundName = substr($soundName, 18);
+		}
 
 		if (!preg_match('/^[a-z]+$/', $soundName)) {
 			$this->getPlugin()->getLogger()->error('PocketMusic 설정이 SimpleArea 애드온과 호환되지 않아요. 개발자 MCPE_PC에게 문의해주세요.');
