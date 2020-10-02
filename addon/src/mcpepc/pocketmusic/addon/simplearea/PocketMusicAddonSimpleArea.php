@@ -74,8 +74,8 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$player = $event->getEntity();
 
 		if ($player instanceof Player) {
-			$this->playerExitsArea($event->getPlayer());
-			$this->ready($event->getPlayer());
+			$this->playerExitsArea($player);
+			$this->ready($player);
 		}
 	}
 
