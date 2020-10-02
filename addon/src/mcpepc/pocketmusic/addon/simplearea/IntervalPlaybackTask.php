@@ -10,6 +10,8 @@ namespace mcpepc\pocketmusic\addon\simplearea;
 use mcpepc\pocketmusic\tasks\PocketMusicTask;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use function is_array;
+use function is_string;
 use function preg_match;
 use function substr;
 
@@ -36,6 +38,10 @@ class IntervalPlaybackTask extends PocketMusicTask {
 
 		if (is_array($args[1])) {
 			$args[1] = $args[1][array_rand($args[1])];
+		}
+
+		if (!is_string($soundName)) {
+			return;
 		}
 
 		if (strpos($soundName, 'pocketmusic.music.') === 0) {
