@@ -24,6 +24,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 	private $whereIs = [];
 
 	function onLoad(): void {
+		$this->saveResource('areas.json');
 		$this->areaConfig = new Config($this->getDataFolder() . 'areas.json');
 	}
 
