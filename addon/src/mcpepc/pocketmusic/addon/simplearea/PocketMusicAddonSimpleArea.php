@@ -71,8 +71,12 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 	 * @priority HIGH
 	 */
 	function onEntityLevelChange(EntityLevelChangeEvent $event) {
-		$this->playerExitsArea($event->getPlayer());
-		$this->ready($event->getPlayer());
+		$player = $event->getEntity();
+
+		if ($player instanceof Player) {
+			$this->playerExitsArea($event->getPlayer());
+			$this->ready($event->getPlayer());
+		}
 	}
 
 	private function playerExitsArea(Player $player): bool {
