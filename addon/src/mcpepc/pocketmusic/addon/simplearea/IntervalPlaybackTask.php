@@ -7,25 +7,26 @@
 
 namespace mcpepc\pocketmusic\addon\simplearea;
 
-use mcpepc\pocketmusic\PocketMusic;
-use mcpepc\pocketmusic\Sound;
-use mcpepc\pocketmusic\tasks\PlaySoundTask;
 use mcpepc\pocketmusic\tasks\PocketMusicTask;
+use pocketmine\Player;
 use pocketmine\plugin\Plugin;
-use function strlen;
-use function strpos;
-use function substr;
 
 class IntervalPlaybackTask extends PocketMusicTask {
-	private $args = [];
+	private $player;
 
-	function __construct(Plugin $plugin, ...$args) {
+	private $soundName = null;
+
+	function __construct(Plugin $plugin, Player $player, $soundName = null) {
 		$this->owningPlugin = $plugin;
-		$this->args = $args;
+		$this->player = $player;
+
+		if ($soundName !== null) {
+			$this->soundName = $soundName;
+		}
 	}
 
 	function onRun(int $currentTick) {
-		$this->getPlugin()->getScheduler()->scheduleTask(new PlaySoundTask($this->getPlugin()->getPocketMusic(), ...$args));
+		$this->getPlugin()->getPocketMusic()->playSound(false, false, $player, $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($player->getLevel()));
 		$this->getPlugin()->ready($player);
 	}
 }
