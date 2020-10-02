@@ -97,7 +97,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		}
 
 		if ($soundName === null && $this->whereIs[$playerName] !== null) {
-			$soundName = $this->areaConfig->get($key, null);
+			$soundName = $this->areaConfig->get($this->whereIs[$playerName], null);
 		}
 
 		$this->delayedTasks[strtolower($player->getName())] = $this->getScheduler()->scheduleDelayedTask(new IntervalPlaybackTask($this, $player, $soundName), $delay);
