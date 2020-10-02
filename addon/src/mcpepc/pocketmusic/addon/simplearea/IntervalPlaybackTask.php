@@ -46,7 +46,7 @@ class IntervalPlaybackTask extends PocketMusicTask {
 		}
 
 		if ($this->player->isOnline()) {
-			$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName);
+			$this->getPlugin()->getPocketMusic()->playSound(false, true, $this->player, $this->soundName);
 			$this->getPlugin()->ready($this->player, $this->getPlugin()->getPocketMusic()->getSoundInfo($soundName)['duration']);
 		}
 	}
