@@ -38,12 +38,16 @@ class IntervalPlaybackTask extends PocketMusicTask {
 			$args[1] = $args[1][array_rand($args[1])];
 		}
 
+		$soundName = substr($soundName, 18);
+
 		if (!preg_match('/^[a-z]+$/', $soundName)) {
-			$this->getPlugin()->getLogger()->error('PocketMusic 설정이 SimpleArea 애드온과 호환되지 않아요. 개발자 MCPE_PC로 문의해주세요.');
+			$this->getPlugin()->getLogger()->error('PocketMusic 설정이 SimpleArea 애드온과 호환되지 않아요. 개발자 MCPE_PC에게 문의해주세요.');
 			$this->getPlugin()->getServer()->stop();
 		}
 
-		$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName);
-		$this->getPlugin()->ready($this->player, $this->getPlugin()->getPocketMusic()->getSoundInfo(substr($soundName, 18))['duration']);
+		if ($this->player->isOnline()) {
+			$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName);
+			$this->getPlugin()->ready($this->player, $this->getPlugin()->getPocketMusic()->getSoundInfo($soundName)['duration']);
+		}
 	}
 }
