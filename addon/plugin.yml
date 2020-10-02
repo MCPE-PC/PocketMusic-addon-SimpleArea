@@ -1,0 +1,9 @@
+---
+name: PocketMusicAddonSimpleArea
+version: 0.2.0
+main: mcpepc\pocketmusic\addon\simplearea\PocketMusicAddonSimpleArea
+api:
+- 3.0.0
+description: A simple SimpleArea integration for PocketMusic ^0.x
+author: MCPE_PC
+...
