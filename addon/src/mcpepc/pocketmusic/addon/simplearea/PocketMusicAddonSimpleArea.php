@@ -5,7 +5,10 @@ namespace mcpepc\pocketmusic\addon\simplearea;
 use ifteam\SimpleArea\database\area\AreaProvider;
 use ifteam\SimpleArea\database\area\AreaSection;
 use mcpepc\pocketmusic\PocketMusic;
+use pocketmine\event\entity\EntityLevelChangeEvent;
 use pocketmine\event\Listener;
+use pocketmine\event\player\PlayerJoinEvent;
+use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -39,8 +42,9 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 	 * @priority HIGH
 	 */
 	function onJoin(PlayerJoinEvent $event) {
-		$this->playerExitsArea($event->getPlayer());
-		$this->ready($event->getPlayer());
+		$player = $event->getPlayer();
+		$this->whereIs[strtolower($player->getName())] = null;
+		$this->ready($player);
 	}
 
 	// https://github.com/organization/SimpleArea/blob/master/src/ifteam/SimpleArea/EventListener.php
