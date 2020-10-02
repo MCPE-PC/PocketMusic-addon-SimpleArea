@@ -27,7 +27,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$this->areaConfig = new Config($this->getDataFolder() . 'areas.json');
 	}
 
-	function onEnable() {
+	function onEnable(): void {
 		$this->getLogger()->info('이 플러그인 사용 시에 메모리가 부족해질 수 있으니 꼭 하루에 한 번 이상 서버를 재시작해주세요! :) by. MCPE_PC');
 
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -56,12 +56,9 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$playerName = strtolower($player->getName());
 		$area = (AreaProvider::getInstance())->getArea($world, $posX, $posZ, $playerName);
 
-		if ($area instanceof AreaSection) {
-			$key = $world . ' ' . $area->getId();
-			if (($player->isOp() || !$area->isAccessDeny() || $area->isResident($user)) && $this->whereIs[$playerName] === $key) {
-				$this->whereIs[$playerName] = $key;
-				$this->ready($player);
-			}
+		if ($area instanceof AreaSection && ($player->isOp() || !$area->isAccessDeny() || $area->isResident($user)) && $this->whereIs[$playerName] !== ($key = $world . ' ' . $area->getId())) {
+			$this->whereIs[$playerName] = $key;
+			$this->ready($player);
 		} else if ($this->playerExitsArea($player)) {
 				$this->ready($player);
 		}
@@ -88,7 +85,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 
 	function ready(Player $player, int $delay = -1, $soundName = null): void {
 		$playerName = strtolower($player->getName());
-		if (isset($this->delayedTasks[$playerName]) {
+		if (isset($this->delayedTasks[$playerName])) {
 			$this->delayedTasks[$playerName]->getHandler()->cancel();
 		}
 
