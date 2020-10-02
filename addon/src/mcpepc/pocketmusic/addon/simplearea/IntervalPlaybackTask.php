@@ -32,12 +32,12 @@ class IntervalPlaybackTask extends PocketMusicTask {
 	function onRun(int $currentTick) {
 		$soundName = $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel());
 
-		if (strpos($soundName, 'pocketmusic.') === 0 && strpos($args[1], 'pocketmusic.music.') === false) {
-			$args[1] = $this->getResourcePackConfig()->get('soundsCache');
+		if (strpos($soundName, 'pocketmusic.') === 0 && strpos($soundName, 'pocketmusic.music.') === false) {
+			$soundName = $this->getResourcePackConfig()->get('soundsCache');
 		}
 
-		if (is_array($args[1])) {
-			$args[1] = $args[1][array_rand($args[1])];
+		if (is_array($soundName)) {
+			$soundName = $soundName[array_rand($soundName)];
 		}
 
 		if (!is_string($soundName)) {
