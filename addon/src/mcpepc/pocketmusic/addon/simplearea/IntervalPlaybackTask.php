@@ -30,7 +30,7 @@ class IntervalPlaybackTask extends PocketMusicTask {
 	function onRun(int $currentTick) {
 		$soundName = $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel());
 
-		if (strpos($soundName, self::TOP_LEVEL) === 0 && strpos($args[1], self::MUSIC) === false) {
+		if (strpos($soundName, 'pocketmusic.') === 0 && strpos($args[1], 'pocketmusic.music.') === false) {
 			$args[1] = $this->getResourcePackConfig()->get('soundsCache');
 		}
 
@@ -38,7 +38,9 @@ class IntervalPlaybackTask extends PocketMusicTask {
 			$args[1] = $args[1][array_rand($args[1])];
 		}
 
+		if (strpos($soundName, 'pocketmusic.music.') === 0) {
 		$soundName = substr($soundName, 18);
+	}
 
 		if (!preg_match('/^[a-z]+$/', $soundName)) {
 			$this->getPlugin()->getLogger()->error('PocketMusic 설정이 SimpleArea 애드온과 호환되지 않아요. 개발자 MCPE_PC에게 문의해주세요.');
