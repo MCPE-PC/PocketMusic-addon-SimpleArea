@@ -26,7 +26,7 @@ class IntervalPlaybackTask extends PocketMusicTask {
 	}
 
 	function onRun(int $currentTick) {
-		$this->getPlugin()->getPocketMusic()->playSound(false, false, $player, $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($player->getLevel()));
-		$this->getPlugin()->ready($player);
+		$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel()));
+		$this->getPlugin()->ready($this->player);
 	}
 }
