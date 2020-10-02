@@ -10,6 +10,8 @@ namespace mcpepc\pocketmusic\addon\simplearea;
 use mcpepc\pocketmusic\tasks\PocketMusicTask;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use function preg_match;
+use function substr;
 
 class IntervalPlaybackTask extends PocketMusicTask {
 	private $player;
@@ -26,7 +28,22 @@ class IntervalPlaybackTask extends PocketMusicTask {
 	}
 
 	function onRun(int $currentTick) {
-		$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel()));
-		$this->getPlugin()->ready($this->player);
+		$soundName = $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel());
+
+		if (strpos($soundName, self::TOP_LEVEL) === 0 && strpos($args[1], self::MUSIC) === false) {
+			$args[1] = $this->getResourcePackConfig()->get('soundsCache');
+		}
+
+		if (is_array($args[1])) {
+			$args[1] = $args[1][array_rand($args[1])];
+		}
+
+		if (!preg_match('/^[a-z]+$/', $soundName)) {
+			$this->getPlugin()->getLogger()->error('PocketMusic 설정이 SimpleArea 애드온과 호환되지 않아요. 개발자 MCPE_PC로 문의해주세요.');
+			$this->getPlugin()->getServer()->stop();
+		}
+
+		$this->getPlugin()->getPocketMusic()->playSound(false, false, $this->player, $this->soundName);
+		$this->getPlugin()->ready($this->player, $this->getPlugin()->getPocketMusic()->getSoundInfo(substr($soundName, 18))['duration']);
 	}
 }
