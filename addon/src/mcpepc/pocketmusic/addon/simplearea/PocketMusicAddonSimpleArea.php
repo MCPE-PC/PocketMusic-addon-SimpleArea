@@ -35,7 +35,9 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 	}
 
 	function onDisable(): void {
-		$this->areaConfig->setAll(ksort($this->areaConfig->getAll()));
+		$areaConfig = $this->areaConfig->getAll();
+		ksort($areaConfig);
+		$this->areaConfig->setAll($areaConfig);
 		$this->areaConfig->save();
 	}
 
@@ -53,7 +55,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$player = $event->getPlayer();
 		$posX = $player->getLocation()->getFloorX();
 		$posZ = $player->getLocation()->getFloorZ();
-		$world = $player->getWorld()->getFolderName();
+		$world = $player->getLevel()->getFolderName();
 		$playerName = strtolower($player->getName());
 		$area = (AreaProvider::getInstance())->getArea($world, $posX, $posZ, $playerName);
 
