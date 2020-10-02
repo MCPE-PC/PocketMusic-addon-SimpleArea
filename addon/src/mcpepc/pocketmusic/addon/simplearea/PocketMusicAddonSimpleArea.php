@@ -93,7 +93,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 	function ready(Player $player, int $delay = -1, $soundName = null): void {
 		$playerName = strtolower($player->getName());
 		if (isset($this->delayedTasks[$playerName])) {
-			$this->delayedTasks[$playerName]->getHandler()->cancel();
+			$this->delayedTasks[$playerName]->cancel();
 		}
 
 		if ($soundName === null && $this->whereIs[$playerName] !== null) {
