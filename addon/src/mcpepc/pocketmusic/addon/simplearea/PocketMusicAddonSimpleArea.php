@@ -63,7 +63,7 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 			$this->whereIs[$playerName] = $key;
 			$this->ready($player);
 		} else if ($this->playerExitsArea($player)) {
-				$this->ready($player);
+			$this->ready($player);
 		}
 	}
 
