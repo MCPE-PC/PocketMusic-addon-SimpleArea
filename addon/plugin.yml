@@ -7,5 +7,6 @@ api:
 description: A simple SimpleArea integration for PocketMusic ^0.x
 depend:
 - PocketMusic
+- SimpleArea
 author: MCPE_PC
 ...

@@ -33,7 +33,7 @@ class IntervalPlaybackTask extends PocketMusicTask {
 		$soundName = $this->soundName ?? $this->getPlugin()->getPocketMusic()->getAutoPlaySound($this->player->getLevel());
 
 		if (strpos($soundName, 'pocketmusic.') === 0 && strpos($soundName, 'pocketmusic.music.') === false) {
-			$soundName = $this->getResourcePackConfig()->get('soundsCache');
+			$soundName = $this->getPlugin()->getPocketMusic()->getResourcePackConfig()->get('soundsCache');
 		}
 
 		if (is_array($soundName)) {
@@ -41,7 +41,7 @@ class IntervalPlaybackTask extends PocketMusicTask {
 		}
 
 		if (!is_string($soundName)) {
-			return;
+			$soundName = ((string) $soundName);
 		}
 
 		if (strpos($soundName, 'pocketmusic.music.') === 0) {

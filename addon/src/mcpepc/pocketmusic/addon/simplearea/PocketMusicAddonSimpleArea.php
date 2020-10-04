@@ -59,9 +59,11 @@ class PocketMusicAddonSimpleArea extends PluginBase implements Listener {
 		$playerName = strtolower($player->getName());
 		$area = (AreaProvider::getInstance())->getArea($world, $posX, $posZ, $playerName);
 
-		if ($area instanceof AreaSection && ($player->isOp() || !$area->isAccessDeny() || $area->isResident($playerName)) && $this->whereIs[$playerName] !== ($key = $world . ' ' . $area->getId())) {
-			$this->whereIs[$playerName] = $key;
-			$this->ready($player);
+		if ($area instanceof AreaSection) {
+			if (($player->isOp() || !$area->isAccessDeny() || $area->isResident($playerName)) && ($this->whereIs[$playerName] !== ($key = $world . ' ' . $area->getId()))) {
+				$this->whereIs[$playerName] = $key;
+				$this->ready($player);
+			}
 		} else if ($this->playerExitsArea($player)) {
 			$this->ready($player);
 		}
