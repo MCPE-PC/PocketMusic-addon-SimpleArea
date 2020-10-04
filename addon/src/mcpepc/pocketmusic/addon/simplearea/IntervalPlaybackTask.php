@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author MCPE_PC
  * @description Modified code of PlaySoundTask
@@ -11,7 +12,6 @@ use mcpepc\pocketmusic\tasks\PocketMusicTask;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use function is_array;
-use function is_string;
 use function preg_match;
 use function substr;
 
@@ -40,8 +40,8 @@ class IntervalPlaybackTask extends PocketMusicTask {
 			$soundName = $soundName[array_rand($soundName)];
 		}
 
-		if (!is_string($soundName)) {
-			$soundName = ((string) $soundName);
+		if ($soundName === null) {
+			return;
 		}
 
 		if (strpos($soundName, 'pocketmusic.music.') === 0) {
